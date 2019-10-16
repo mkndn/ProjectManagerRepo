@@ -90,7 +90,7 @@ export class Form extends Component {
               />
             </div>
             <div className="form-group">
-              <label htmlFor="project_model">Project Model</label>
+              <label htmlFor="project_model">Project Model:</label>
               <input
                 type="text"
                 className="form-control"
@@ -100,7 +100,7 @@ export class Form extends Component {
               />
             </div>
             <div className="form-group">
-              <label htmlFor="resource_count">Resource Count</label>
+              <label htmlFor="resource_count">Resource Count:</label>
               <input
                 type="text"
                 className="form-control"

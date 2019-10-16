@@ -1,10 +1,11 @@
 import axios from "axios";
 import { GET_PROJECTS, DELETE_PROJECT, ADD_PROJECT } from "./types";
+import { tokenConfig } from "./auth"
 
 //GET PROJECTS
-export const getProjects = () => dispatch => {
+export const getProjects = () => (dispatch, getState) => {
   axios
-    .get("/api/projects/")
+    .get("/api/projects/", tokenConfig(getState))
     .then(res => {
       dispatch({
         type: GET_PROJECTS,
@@ -15,9 +16,9 @@ export const getProjects = () => dispatch => {
 };
 
 //DELETE PROJECTS
-export const deleteProject = id => dispatch => {
+export const deleteProject = id => (dispatch, getState) => {
   axios
-    .delete(`/api/projects/${id}`)
+    .delete(`/api/projects/${id}`, tokenConfig(getState))
     .then(res => {
       dispatch({
         type: DELETE_PROJECT,
@@ -28,9 +29,9 @@ export const deleteProject = id => dispatch => {
 };
 
 //ADD PROJECTS
-export const addProject = project => dispatch => {
+export const addProject = project => (dispatch, getState) => {
   axios
-    .post("/api/projects/", project)
+    .post("/api/projects/", project, tokenConfig(getState))
     .then(res => {
       dispatch({
         type: ADD_PROJECT,
