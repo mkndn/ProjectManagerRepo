@@ -1,15 +1,14 @@
 import React, { Component } from "react";
-import { Link } from 'react-router-dom'
-import { connect } from 'react-redux'
-import PropTypes from 'prop-types'
-import { logout } from '../../actions/auth'
+import { Link } from "react-router-dom";
+import { connect } from "react-redux";
+import PropTypes from "prop-types";
+import { logout } from "../../actions/auth";
 
 export class Header extends Component {
-
   static propTypes = {
     auth: PropTypes.object.isRequired,
     logout: PropTypes.func.isRequired
-  }
+  };
 
   render() {
     const { isAuthenticated, user } = this.props.auth;
@@ -17,10 +16,17 @@ export class Header extends Component {
     const loginLinks = (
       <ul className="navbar-nav mr-auto mt-2 mt-lg-0">
         <li className="nav-item">
-          <span className="nav-text"><strong>{user ? `Welcome ${user.username}` : ""}</strong></span>
+          <span className="nav-text">
+            <strong>{user ? `Welcome ${user.username}` : ""}</strong>
+          </span>
         </li>
         <li className="nav-item">
-          <button className="nav-link btn btn-sm btn-link" onClick={this.props.logout}>Logout</button>
+          <button
+            className="nav-link btn btn-sm btn-link"
+            onClick={this.props.logout}
+          >
+            Logout
+          </button>
         </li>
       </ul>
     );
@@ -28,10 +34,14 @@ export class Header extends Component {
     const guestLinks = (
       <ul className="navbar-nav mr-auto mt-2 mt-lg-0">
         <li className="nav-item">
-          <Link className="nav-link" to="/login">Login</Link>
+          <Link className="nav-link" to="/login">
+            Login
+          </Link>
         </li>
         <li className="nav-item">
-          <Link className="nav-link" to="/register">Register</Link>
+          <Link className="nav-link" to="/register">
+            Register
+          </Link>
         </li>
       </ul>
     );
@@ -57,13 +67,16 @@ export class Header extends Component {
             {isAuthenticated ? loginLinks : guestLinks}
           </div>
         </div>
-      </nav >
+      </nav>
     );
   }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = state => ({
   auth: state.auth
-}
+});
 
-export default connect(mapStateToProps, { logout })(Header);
+export default connect(
+  mapStateToProps,
+  { logout }
+)(Header);

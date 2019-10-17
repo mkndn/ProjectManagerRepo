@@ -10,7 +10,7 @@ autopep8 = "*"
 [packages]
 django = "*"
 djangorestframework = "*"
-django-rest-knox = "*"
+djoser = "*"
 
 [requires]
 python_version = "3.8"

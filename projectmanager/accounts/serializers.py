@@ -1,14 +1,14 @@
 from rest_framework import serializers
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate
-from .serializers import Profile
+from accounts.models import Profile
 
 
 # User Serializer
 class UserSerializer (serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ('id', 'username', 'password')
+        fields = ('id', 'username', 'password', 'email')
 
 
 # Register Serializer
@@ -16,14 +16,17 @@ class ProfileSerializer (serializers.ModelSerializer):
     class Meta:
         model = Profile
         fields = "__all__"
-        exra_kwargs = {"password": {"write_only": True}}
+        extra_kwargs = {"password": {"write_only": True},
+                        "user": {"required": False}}
 
     def create(self, validated_data):
-        profile_data = validated_data.pop('profile')
-        user = User.objects.create(**validated_data)
-        Profile.objects.create(user=user, **profile_data)
+        print("validated Data: ", validated_data)
+        user = User.objects.create_user(
+            validated_data['username'], validated_data['password'], validated_data['email'])
+        profile = Profile.objects.create(
+            ['first_name'], validated_data['last_name'], user=user)
 
-        return user
+        return profile
 
 # Login Serializer
 
