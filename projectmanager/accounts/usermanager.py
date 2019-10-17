@@ -1,31 +1,58 @@
 from django.contrib.auth.models import BaseUserManager
 
 
-class UserManager(BaseUserManager):
+class CustomUserManager(BaseUserManager):
     use_in_migrations = True
 
-    def create_user(self, username, password, email, first_name, last_name, date_of_birth):
+    def _create_user(self, username, password, email, first_name, last_name, is_active, is_staff, is_superuser):
         user = self.model(
             username=username,
+            password=password,
             email=email,
             first_name=first_name,
             last_name=last_name,
-            date_of_birth=date_of_birth
+            is_active=is_active,
+            is_staff=is_staff,
+            is_superuser=is_superuser
         )
 
         user.set_password(password)
         user.save(using=self._db)
         return user
 
-    def create_superuser(self, username, email, first_name, last_name, date_of_birth, password):
-        user = self.create_user(
-            username=username,
-            email=email,
-            first_name=first_name,
-            last_name=last_name,
-            date_of_birth=date_of_birth
+    def create_user(self, username, password, email, first_name, last_name):
+        return self._create_user(
+            username,
+            password,
+            email,
+            first_name,
+            last_name,
+            True,
+            False,
+            False
         )
 
-        user.admin = True
-        user.save(using=self._db)
-        return user
+    # STAFF USER
+    def create_staffuser(self, username, password, email, first_name, last_name):
+        return self._create_user(
+            username,
+            password,
+            email,
+            first_name,
+            last_name,
+            True,
+            True,
+            False
+        )
+
+    def create_superuser(self, username, password, email, first_name, last_name):
+        return self._create_user(
+            username,
+            password,
+            email,
+            first_name,
+            last_name,
+            True,
+            True,
+            True
+        )

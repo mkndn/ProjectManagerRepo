@@ -14,9 +14,9 @@ export class Header extends Component {
     const { isAuthenticated, user } = this.props.auth;
 
     const loginLinks = (
-      <ul className="navbar-nav mr-auto mt-2 mt-lg-0">
+      <ul className="navbar-nav ml-auto">
         <li className="nav-item">
-          <span className="nav-text">
+          <span className="nav-link">
             <strong>{user ? `Welcome ${user.username}` : ""}</strong>
           </span>
         </li>
@@ -48,7 +48,7 @@ export class Header extends Component {
 
     return (
       <nav className="navbar navbar-expand-sm navbar-light bg-light">
-        <div className="container">
+        <div className="container-fluid">
           <button
             className="navbar-toggler"
             type="button"

@@ -8,7 +8,7 @@ class ProjectViewSet(viewsets.ModelViewSet):
     permission_classes = [permissions.IsAuthenticated]
     serializer_class = ProjectSerializer
 
-    def get_queryset(self, parameter_list):
+    def get_queryset(self):
         return self.request.user.projects.all()
 
     def perform_create(self, serializer):

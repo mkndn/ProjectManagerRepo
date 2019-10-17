@@ -110,7 +110,9 @@ export class Form extends Component {
               />
             </div>
             <div className="form-group">
-              <button type="submit">Submit</button>
+              <button className="btn btn-primary" type="submit">
+                Submit
+              </button>
             </div>
           </form>
         </div>

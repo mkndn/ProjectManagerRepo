@@ -26,7 +26,7 @@ export const loadUser = () => (dispatch, getState) => {
 };
 
 //LOGIN
-export const login = (username, password) => {
+export const login = (username, password) => dispatch => {
   //Config Headers
   const config = {
     headers: {
@@ -57,8 +57,7 @@ export const register = ({
   password,
   email,
   first_name,
-  last_name,
-  date_of_birth
+  last_name
 }) => dispatch => {
   //Config Headers
   const config = {
@@ -72,8 +71,7 @@ export const register = ({
     password,
     email,
     first_name,
-    last_name,
-    date_of_birth
+    last_name
   };
 
   console.log(body);

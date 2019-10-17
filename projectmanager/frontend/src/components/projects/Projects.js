@@ -1,18 +1,24 @@
 import React, { Component, Fragment } from "react";
 import { connect } from "react-redux";
+import { Link, Redirect } from "react-router-dom";
 import PropTypes from "prop-types";
-import { getProjects, deleteProject } from "../../actions/projects";
+import { getProjects, deleteProject, getProject } from "../../actions/projects";
 
 export class Projects extends Component {
   static propTypes = {
     projects: PropTypes.array.isRequired,
     getProjects: PropTypes.func.isRequired,
+    getProject: PropTypes.func.isRequired,
     deleteProject: PropTypes.func.isRequired
   };
 
   componentDidMount() {
     this.props.getProjects();
   }
+
+  sendDataToParent = project => {
+    this.props.callback(project);
+  };
 
   render() {
     return (
@@ -45,6 +51,12 @@ export class Projects extends Component {
                     <td>{project.resource_count}</td>
                     <td>
                       <button
+                        onClick={this.sendDataToParent.bind(this, project)}
+                        className="mr-2 btn btn-info btn-sm"
+                      >
+                        Edit
+                      </button>
+                      <button
                         onClick={this.props.deleteProject.bind(
                           this,
                           project.id
@@ -71,5 +83,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { getProjects, deleteProject }
+  { getProjects, deleteProject, getProject }
 )(Projects);
