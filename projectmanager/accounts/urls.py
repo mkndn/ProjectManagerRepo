@@ -1,6 +1,7 @@
 from django.urls import path, include
-from .api import RegisterAPI, LoginAPI, UserAPI
+from .api import RegisterAPI, LoginAPI, UserAPI, RegistrationView
 from djoser import views as djoser_views
+from django.views.decorators.csrf import csrf_exempt
 
 
 urlpatterns = [

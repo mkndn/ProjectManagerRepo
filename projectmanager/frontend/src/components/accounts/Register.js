@@ -10,6 +10,7 @@ export class Register extends Component {
     last_name: "",
     username: "",
     email: "",
+    date_of_birth: "",
     password: "",
     password2: ""
   };
@@ -28,6 +29,7 @@ export class Register extends Component {
       first_name,
       last_name,
       email,
+      date_of_birth,
       username,
       password,
       password2
@@ -37,7 +39,7 @@ export class Register extends Component {
       console.log("passwords don't match");
     }
 
-    const data = { first_name, last_name, username, password, email };
+    const data = { username, password, email, first_name, last_name, date_of_birth };
 
     this.props.register(data);
   };
@@ -53,6 +55,7 @@ export class Register extends Component {
       first_name,
       last_name,
       email,
+      date_of_birth,
       username,
       password,
       password2
@@ -102,6 +105,16 @@ export class Register extends Component {
                 name="email"
                 onChange={this.onChange}
                 value={email}
+              />
+            </div>
+            <div className="form-group">
+              <label htmlFor="date_of_birth">Date Of Birth:</label>
+              <input
+                type="date"
+                className="form-control"
+                name="date_of_birth"
+                onChange={this.onChange}
+                value={date_of_birth}
               />
             </div>
             <div className="form-group">
