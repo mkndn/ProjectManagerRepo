@@ -3,22 +3,23 @@ import { connect } from "react-redux";
 import { Link, Redirect } from "react-router-dom";
 import PropTypes from "prop-types";
 import { getProjects, deleteProject, getProject } from "../../actions/projects";
+import { subscribe as rd_subscribe } from 'redux-subscriber';
 
 export class Projects extends Component {
   static propTypes = {
     projects: PropTypes.array.isRequired,
     getProjects: PropTypes.func.isRequired,
     getProject: PropTypes.func.isRequired,
-    deleteProject: PropTypes.func.isRequired,
-    callbackToParent: PropTypes.func.isRequired
+    deleteProject: PropTypes.func.isRequired
   };
 
   componentDidMount() {
     this.props.getProjects();
   }
 
-  sendDataToParent = project => {
-    this.props.callbackToParent(project);
+  editProject = id => {
+    console.log('edit project called: ' + id);
+    this.props.getProject(id);
   };
 
   render() {
@@ -52,7 +53,7 @@ export class Projects extends Component {
                     <td>{project.resource_count}</td>
                     <td>
                       <button
-                        onClick={() => this.sendDataToParent(project)}
+                        onClick={() => this.editProject(project.id)}
                         className="mr-2 btn btn-info btn-sm"
                       >
                         Edit

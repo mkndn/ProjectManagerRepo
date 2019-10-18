@@ -3,16 +3,18 @@ import {
   DELETE_PROJECT,
   ADD_PROJECT,
   GET_PROJECT,
-  UPDATE_PROJECT
+  UPDATE_PROJECT,
+  UPDATE_SUCCESS
 } from "../actions/types";
 
 const initialState = {
   projects: []
 };
 
-export default function(state = initialState, action) {
+export default function (state = initialState, action) {
   switch (action.type) {
     case GET_PROJECTS:
+    case UPDATE_SUCCESS:
       return {
         ...state,
         projects: action.payload
@@ -20,7 +22,7 @@ export default function(state = initialState, action) {
     case GET_PROJECT:
       return {
         ...state,
-        projects: action.payload
+        project: action.payload
       };
     case DELETE_PROJECT:
       return {
@@ -30,9 +32,9 @@ export default function(state = initialState, action) {
         )
       };
     case ADD_PROJECT:
-    case UPDATE_PROJECT:
       return {
-        ...state
+        ...state,
+        projects: [...state.projects, action.payload]
       };
     default:
       return state;

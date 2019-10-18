@@ -2,33 +2,38 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { addProject, updateProject } from "../../actions/projects";
+import { subscribe as rd_subscribe } from 'redux-subscriber';
 
 export class Form extends Component {
   state = {
-    id: 0,
+    id: "",
     name: "",
     start_date: "",
     duration: 0,
     project_model: "",
-    resource_count: 0
+    resource_count: 0,
   };
 
+  prop_read = false;
+
   static propTypes = {
+    project: PropTypes.object,
     addProject: PropTypes.func.isRequired,
-    stateFromParent: PropTypes.object.isRequired,
     updateProject: PropTypes.func.isRequired
   };
 
-  static getDerivedStateFromProps(props, state) {
-    console.log("Props: ", props);
-    console.log("state: ", state);
-    var isStateFromParentSet = false;
+  /* static getDerivedStateFromProps(props, state) {
+    console.log('props: ', props);
+    console.log('state: ', state);
+    return (state.id === 0 && props.project !== state) ? props.project : state;
+  } */
 
-    if (state.id && state.id === props.stateFromParent.id) {
-      isStateFromParentSet = true;
+  componentDidUpdate(prevPros) {
+    console.log('prevPros: ', prevPros);
+    console.log('currentProps: ', this.props);
+    if (!prevPros.project || prevPros.project !== this.props.project) {
+      this.setState({ ...this.props.project });
     }
-
-    return !isStateFromParentSet ? props.stateFromParent : props;
   }
 
   onChange = e => {
@@ -58,6 +63,7 @@ export class Form extends Component {
       project.id = this.state.id;
 
       this.setState({
+        id: "",
         name: "",
         start_date: "",
         duration: 0,
@@ -68,6 +74,7 @@ export class Form extends Component {
       this.props.updateProject(project);
     } else {
       this.setState({
+        id: "",
         name: "",
         start_date: "",
         duration: 0,
@@ -156,7 +163,16 @@ export class Form extends Component {
   }
 }
 
+rd_subscribe('projects', state => {
+  console.log('project state: ', state);
+  mapStateToProps(state);
+});
+
+const mapStateToProps = state => ({
+  project: state.projects.project
+});
+
 export default connect(
-  null,
+  mapStateToProps,
   { addProject, updateProject }
 )(Form);

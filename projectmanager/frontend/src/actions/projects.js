@@ -3,7 +3,9 @@ import {
   GET_PROJECTS,
   DELETE_PROJECT,
   ADD_PROJECT,
-  UPDATE_PROJECT
+  UPDATE_PROJECT,
+  UPDATE_SUCCESS,
+  GET_PROJECT
 } from "./types";
 import { tokenConfig } from "./auth";
 
@@ -16,14 +18,15 @@ export const getProjects = () => (dispatch, getState) => {
         type: GET_PROJECTS,
         payload: res.data
       });
-    })
-    .catch(err => console.log(err));
+    }).catch(err => {
+      console.log(err)
+    });
 };
 
 //GET PROJECT
 export const getProject = id => (dispatch, getState) => {
   axios
-    .delete(`/api/projects/${id}`, tokenConfig(getState))
+    .get(`/api/projects/${id}`, tokenConfig(getState))
     .then(res => {
       dispatch({
         type: GET_PROJECT,
@@ -67,10 +70,16 @@ export const updateProject = project => (dispatch, getState) => {
       axios
         .get("/api/projects/", tokenConfig(getState))
         .then(res => {
-          dispatch({
-            type: UPDATE_PROJECT,
-            payload: res.data
-          });
+          axios
+            .get("/api/projects/", tokenConfig(getState))
+            .then(res => {
+              dispatch({
+                type: UPDATE_SUCCESS,
+                payload: res.data
+              });
+            }).catch(err => {
+              console.log(err)
+            });
         })
         .catch(err => console.log(err));
     })

@@ -42,7 +42,8 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
     'frontend',
     'accounts',
-    'djoser'
+    'djoser',
+    'testing'
 ]
 
 REST_FRAMEWORK = {
