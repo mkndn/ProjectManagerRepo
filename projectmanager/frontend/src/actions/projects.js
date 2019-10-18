@@ -1,5 +1,10 @@
 import axios from "axios";
-import { GET_PROJECTS, DELETE_PROJECT, ADD_PROJECT } from "./types";
+import {
+  GET_PROJECTS,
+  DELETE_PROJECT,
+  ADD_PROJECT,
+  UPDATE_PROJECT
+} from "./types";
 import { tokenConfig } from "./auth";
 
 //GET PROJECTS
@@ -50,6 +55,24 @@ export const addProject = project => (dispatch, getState) => {
         type: ADD_PROJECT,
         payload: res.data
       });
+    })
+    .catch(err => console.log(err));
+};
+
+//UPDATE PROJECT
+export const updateProject = project => (dispatch, getState) => {
+  axios
+    .put(`/api/projects/${project.id}/`, project, tokenConfig(getState))
+    .then(res => {
+      axios
+        .get("/api/projects/", tokenConfig(getState))
+        .then(res => {
+          dispatch({
+            type: UPDATE_PROJECT,
+            payload: res.data
+          });
+        })
+        .catch(err => console.log(err));
     })
     .catch(err => console.log(err));
 };

@@ -13,15 +13,16 @@ export class Dashboard extends Component {
   };
 
   editProjectCallback = dataFromProjects => {
+    console.log("Child Click: ", dataFromProjects);
     this.setState({ ...dataFromProjects });
   };
 
   render() {
-    const state = this.props.state;
+    const state = this.state;
     return (
       <Fragment>
-        <Form state={state} />
-        <Projects callback={this.editProjectCallback} />
+        <Form stateFromParent={this.state} />
+        <Projects callbackToParent={this.editProjectCallback} />
       </Fragment>
     );
   }

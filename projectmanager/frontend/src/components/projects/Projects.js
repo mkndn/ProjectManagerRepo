@@ -9,7 +9,8 @@ export class Projects extends Component {
     projects: PropTypes.array.isRequired,
     getProjects: PropTypes.func.isRequired,
     getProject: PropTypes.func.isRequired,
-    deleteProject: PropTypes.func.isRequired
+    deleteProject: PropTypes.func.isRequired,
+    callbackToParent: PropTypes.func.isRequired
   };
 
   componentDidMount() {
@@ -17,7 +18,7 @@ export class Projects extends Component {
   }
 
   sendDataToParent = project => {
-    this.props.callback(project);
+    this.props.callbackToParent(project);
   };
 
   render() {
@@ -51,7 +52,7 @@ export class Projects extends Component {
                     <td>{project.resource_count}</td>
                     <td>
                       <button
-                        onClick={this.sendDataToParent.bind(this, project)}
+                        onClick={() => this.sendDataToParent(project)}
                         className="mr-2 btn btn-info btn-sm"
                       >
                         Edit

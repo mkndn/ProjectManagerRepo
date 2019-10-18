@@ -1,10 +1,11 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
-import { addProject } from "../../actions/projects";
+import { addProject, updateProject } from "../../actions/projects";
 
 export class Form extends Component {
   state = {
+    id: 0,
     name: "",
     start_date: "",
     duration: 0,
@@ -13,13 +14,30 @@ export class Form extends Component {
   };
 
   static propTypes = {
-    addProject: PropTypes.func.isRequired
+    addProject: PropTypes.func.isRequired,
+    stateFromParent: PropTypes.object.isRequired,
+    updateProject: PropTypes.func.isRequired
   };
 
-  onChange = e => this.setState({ [e.target.name]: e.target.value });
+  static getDerivedStateFromProps(props, state) {
+    console.log("Props: ", props);
+    console.log("state: ", state);
+    var isStateFromParentSet = false;
+
+    if (state.id && state.id === props.stateFromParent.id) {
+      isStateFromParentSet = true;
+    }
+
+    return !isStateFromParentSet ? props.stateFromParent : props;
+  }
+
+  onChange = e => {
+    this.setState({ [e.target.name]: e.target.value });
+  };
 
   onSubmit = e => {
     e.preventDefault();
+
     const {
       name,
       start_date,
@@ -27,6 +45,7 @@ export class Form extends Component {
       project_model,
       resource_count
     } = this.state;
+
     const project = {
       name,
       start_date,
@@ -34,14 +53,30 @@ export class Form extends Component {
       project_model,
       resource_count
     };
-    this.props.addProject(project);
-    this.setState({
-      name: "",
-      start_date: "",
-      duration: 0,
-      project_model: "",
-      resource_count: 0
-    });
+
+    if (this.state.id && this.state.id !== 0) {
+      project.id = this.state.id;
+
+      this.setState({
+        name: "",
+        start_date: "",
+        duration: 0,
+        project_model: "",
+        resource_count: 0
+      });
+
+      this.props.updateProject(project);
+    } else {
+      this.setState({
+        name: "",
+        start_date: "",
+        duration: 0,
+        project_model: "",
+        resource_count: 0
+      });
+
+      this.props.addProject(project);
+    }
   };
 
   render() {
@@ -123,5 +158,5 @@ export class Form extends Component {
 
 export default connect(
   null,
-  { addProject }
+  { addProject, updateProject }
 )(Form);
