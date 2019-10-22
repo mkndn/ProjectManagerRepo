@@ -1,4 +1,4 @@
-# PyProjectManager
+# Project Manager Portal
 An enhanced version of project manager app using Python, React, SQlite and Redux
 
 This app has the following features,
